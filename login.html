@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Farmer Login - Smart Farm</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: linear-gradient(120deg, #e0f7fa 0%, #e8f5e9 100%);
+      font-family: 'Montserrat', Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .login-container {
+      max-width: 400px;
+      margin: 60px auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(44, 62, 80, 0.12);
+      padding: 40px 32px 32px 32px;
+      position: relative;
+      transition: box-shadow 0.2s;
+    }
+    .login-container:hover {
+      box-shadow: 0 12px 40px rgba(44, 62, 80, 0.18);
+    }
+    h2 {
+      text-align: center;
+      color: #388e3c;
+      margin-bottom: 28px;
+      font-size: 2rem;
+      letter-spacing: 1px;
+    }
+    .field {
+      margin-bottom: 22px;
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-weight: 600;
+      color: #388e3c;
+      margin-bottom: 6px;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #bdbdbd;
+      margin-top: 2px;
+      font-size: 1rem;
+      background: #f9fbe7;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    input:focus {
+      border-color: #388e3c;
+      background: #fff;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #43a047 60%, #388e3c 100%);
+      color: #fff;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 8px rgba(56, 142, 60, 0.08);
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #388e3c 60%, #43a047 100%);
+      box-shadow: 0 4px 16px rgba(56, 142, 60, 0.14);
+    }
+    .msg {
+      text-align: center;
+      margin: 16px 0 0 0;
+      color: #388e3c;
+      font-weight: 600;
+      font-size: 1.05rem;
+      min-height: 24px;
+      transition: color 0.2s;
+    }
+    @media (max-width: 500px) {
+      .login-container {
+        max-width: 98vw;
+        padding: 24px 8vw 24px 8vw;
+      }
+      h2 {
+        font-size: 1.4rem;
+      }
+      button {
+        font-size: 1rem;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Farmer Login / Sign Up</h2>
+    <form id="login-form">
+      <div class="field">
+        <label for="name">Name</label>
+        <input type="text" id="name" required placeholder="Enter your name" />
+      </div>
+      <div class="field">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" required pattern="[0-9]{10}" placeholder="Enter 10-digit phone number" />
+      </div>
+      <div class="field" id="otp-field" style="display:none;">
+        <label for="otp">OTP</label>
+        <input type="text" id="otp" maxlength="6" placeholder="Enter OTP" />
+      </div>
+      <button type="submit" id="login-btn">Send OTP</button>
+      <div class="msg" id="msg"></div>
+    </form>
+  </div>
+  <script>
+    const form = document.getElementById('login-form');
+    const nameInput = document.getElementById('name');
+    const phoneInput = document.getElementById('phone');
+    const otpField = document.getElementById('otp-field');
+    const otpInput = document.getElementById('otp');
+    const loginBtn = document.getElementById('login-btn');
+    const msg = document.getElementById('msg');
+
+    let generatedOTP = '';
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if(otpField.style.display === 'none'){
+        // Step 1: Send OTP
+        const phone = phoneInput.value.trim();
+        const name = nameInput.value.trim();
+        if(!name){
+          msg.textContent = 'Please enter your name.';
+          return;
+        }
+        if(phone.length !== 10){
+          msg.textContent = 'Please enter a valid 10-digit phone number.';
+          return;
+        }
+        fetch('/send_otp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ phone: phone })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if(data.success){
+            generatedOTP = data.message.split(': ')[1]; // Extract OTP from message
+            msg.textContent = `Your OTP is: ${generatedOTP} (Demo purpose)`; // In real app, send via SMS
+            otpField.style.display = 'block';
+            loginBtn.textContent = 'Verify OTP';
+            phoneInput.disabled = true;
+            nameInput.disabled = true;
+          }else{
+            msg.textContent = data.message;
+          }
+        })
+        .catch(error => {
+          msg.textContent = 'Error sending OTP. Please try again.';
+          console.error('Error:', error);
+        });
+      }else{
+        // Step 2: Verify OTP
+        if(otpInput.value.trim() === generatedOTP){
+          msg.textContent = 'Login successful!';
+          // Save farmer data to backend
+          fetch('/api/save_farmer', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              name: nameInput.value.trim(),
+              phone: phoneInput.value.trim()
+            })
+          });
+          localStorage.setItem('farmer', JSON.stringify({ name: nameInput.value.trim(), phone: phoneInput.value.trim(), loginTime: Date.now() }));
+          setTimeout(()=>{ window.location.href = 'index.html'; }, 1200);
+        }else{
+          msg.textContent = 'Invalid OTP. Please try again.';
+        }
+      }
+    });
+  </script>
+</body>
+</html>

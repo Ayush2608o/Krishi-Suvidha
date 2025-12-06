@@ -1,0 +1,32 @@
+from flask import Flask, request, jsonify
+import random, time
+from twilio.rest import Client
+
+app = Flask(__name__)
+otp_store = {}
+
+# Twilio credentials
+TWILIO_SID = 'YOUR_TWILIO_SID'
+TWILIO_AUTH = 'YOUR_TWILIO_AUTH_TOKEN'
+TWILIO_FROM = 'YOUR_TWILIO_PHONE_NUMBER'
+
+client = Client(TWILIO_SID, TWILIO_AUTH)
+
+@app.route('/send_otp', methods=['POST'])
+def send_otp():
+    data = request.get_json()
+    phone = data.get('phone')
+    if not phone or len(phone) != 10:
+        return jsonify({'success': False, 'message': 'Invalid phone number'}), 400
+    otp = str(random.randint(100000, 999999))
+    otp_store[phone] = {'otp': otp, 'timestamp': time.time()}
+    # Send SMS
+    try:
+        client.messages.create(
+            body=f'Your OTP for Smart Farm is: {otp}',
+            from_=TWILIO_FROM,
+            to='+91' + phone
+        )
+        return jsonify({'success': True, 'message': 'OTP sent!'})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500

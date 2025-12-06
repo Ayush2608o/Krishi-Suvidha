@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather - Live Weather Updates</title>
+    <meta name="description" content="Get live weather updates for any location">
+    <link rel="stylesheet" href="weather/weather.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="styles.css">
+     <link rel="stylesheet" href="kkk.css">
+     <link rel="stylesheet" href="kk.css">
+     <link rel="stylesheet" href="google.css">
+</head>
+<body>
+     <div class="topbar">
+    <div class="container topbar-inner">
+      <div>✉️ gargkshitij@658gmail.com</div>
+      <div>📞 +91 8871368782</div>
+        <div class="socials"></div>
+      <div id="google_translate_element"></div>
+    </div>
+  </div>
+
+  <!-- Header / Nav -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+      <img src="https://tse4.mm.bing.net/th/id/OIP.nBvrjZhIBP-opLhtv4v-YAHaEq?rs=1&pid=ImgDetMain&o=7&rm=3" alt="logo"> 
+      </div>
+      <nav class="nav">
+        <a href="index.html#home">Home</a>
+        <a href="Grains.html">Grains</a>
+        <a href="vegetables-dashboard.html">Vegetables</a>
+        <a href="products-dashboard.html">Products</a>
+        <a href="orders-dashboard.html">Orders</a>
+        <a href="about-dashboard.html">About</a>
+        <a href="contact-dashboard.html">Contact</a>
+       
+      </nav>
+      <div class="cta">
+        <button class="btn btn-outline">Chat & Quote</button>
+      </div>
+    </div>
+  </header>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Weather</h1>
+            <p class="subtitle">Live weather updates for any location</p>
+        </header>
+
+        <div class="search-section">
+            <form id="search-form" class="search-form">
+                <div class="search-container">
+                    <div class="input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="search-input" placeholder="Search for a city..." class="search-input">
+                    </div>
+                    <div class="button-group">
+                        <button type="submit" id="search-btn" class="btn btn-primary">Search</button>
+                        <button type="button" id="location-btn" class="btn btn-secondary">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div id="loading" class="loading hidden">
+            <div class="loading-card">
+                <div class="spinner"></div>
+                <p>Loading weather data...</p>
+            </div>
+        </div>
+
+        <div id="weather-card" class="weather-card hidden">
+            <div class="weather-content">
+                <h2 id="location" class="location"></h2>
+                
+                <div class="main-weather">
+                    <i id="weather-icon" class="weather-icon"></i>
+                    <div class="temperature-info">
+                        <div id="temperature" class="temperature"></div>
+                        <div id="description" class="description"></div>
+                    </div>
+                </div>
+                
+                <div class="weather-details">
+                    <div class="detail-card">
+                        <i class="fas fa-thermometer-half detail-icon"></i>
+                        <div class="detail-label">Feels like</div>
+                        <div id="feels-like" class="detail-value"></div>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <i class="fas fa-tint detail-icon"></i>
+                        <div class="detail-label">Humidity</div>
+                        <div id="humidity" class="detail-value"></div>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <i class="fas fa-wind detail-icon"></i>
+                        <div class="detail-label">Wind</div>
+                        <div id="wind-speed" class="detail-value"></div>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <i class="fas fa-eye detail-icon"></i>
+                        <div class="detail-label">Visibility</div>
+                        <div id="visibility" class="detail-value"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Beautiful weather data at your fingertips</p>
+        </footer>
+    </div>
+ <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en,hi,',
+      includedLanguages: 'aa,ab,ae,af,ak,am,an,ar,as,av,ay,az,ba,be,bg,bh,bi,bm,bn,bo,br,bs,ca,ce,cs,cu,cv,cy,da,de,dv,dz,ee,el,en,eo,es,et,eu,fa,ff,fi,fj,fo,fr,fy,ga,gd,gl,gn,gu,gv,ha,he,hi,ho,hr,ht,hu,hy,hz,ia,id,ie,ig,ii,ik,io,is,it,iu,ja,jv,ka,kg,ki,kj,kk,kl,km,kn,ko,kr,ks,ku,kv,kw,ky,la,lb,lg,li,ln,lo,lt,lu,lv,mg,mh,mi,mk,ml,mn,mo,mr,ms,mt,my,na,nb,nd,ne,ng,nl,nn,no,nr,oc,oj,om,or,os,pa,pi,pl,ps,pt,qu,rm,rn,ro,ru,rw,sa,sc,sd,se,sg,sh,si,sk,sl,sm,sn,so,sq,sr,ss,st,sv,sw,ta,te,tg,th,ti,tk,tl,tn,to,tr,ts,tt,tw,ty,ug,uk,ur,uz,ve,vi,vo,wa,wo,xh,yi,yo,za,zh,zu',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script> 
+   <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en,hi,',
+      includedLanguages: 'aa,ab,ae,af,ak,am,an,ar,as,av,ay,az,ba,be,bg,bh,bi,bm,bn,bo,br,bs,ca,ce,cs,cu,cv,cy,da,de,dv,dz,ee,el,en,eo,es,et,eu,fa,ff,fi,fj,fo,fr,fy,ga,gd,gl,gn,gu,gv,ha,he,hi,ho,hr,ht,hu,hy,hz,ia,id,ie,ig,ii,ik,io,is,it,iu,ja,jv,ka,kg,ki,kj,kk,kl,km,kn,ko,kr,ks,ku,kv,kw,ky,la,lb,lg,li,ln,lo,lt,lu,lv,mg,mh,mi,mk,ml,mn,mo,mr,ms,mt,my,na,nb,nd,ne,ng,nl,nn,no,nr,oc,oj,om,or,os,pa,pi,pl,ps,pt,qu,rm,rn,ro,ru,rw,sa,sc,sd,se,sg,sh,si,sk,sl,sm,sn,so,sq,sr,ss,st,sv,sw,ta,te,tg,th,ti,tk,tl,tn,to,tr,ts,tt,tw,ty,ug,uk,ur,uz,ve,vi,vo,wa,wo,xh,yi,yo,za,zh,zu',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+   <link href="chat.css" rel="stylesheet" /> 
+    <script type="module">
+       import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js'; 
+    
+      createChat({
+        webhookUrl: 'https://kshitij-garg123.app.n8n.cloud/webhook/8f522b8e-9282-42a5-bede-be9063ebe427/chat'
+      });
+    </script>
+   <script type="module" src="script.js"></script>
+    <script src="weather\weather.js"></script>
+    <script src="scripts.js"></script>
+     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
