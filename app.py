@@ -212,7 +212,51 @@ def api_products():
     ]
     return jsonify(products)
 
-@app.route('/api/save_farmer', methods=['POST'])
+# ---------------- API: Orders & Contact (Persistence) ----------------
+ORDERS_FILE = 'orders.json'
+CONTACTS_FILE = 'contacts.json'
+
+def load_json_file(filepath):
+    if os.path.exists(filepath):
+        with open(filepath, 'r') as f:
+            try: return json.load(f)
+            except: return []
+    return []
+
+def save_json_file(filepath, data):
+    with open(filepath, 'w') as f:
+        json.dump(data, f, indent=2)
+
+@app.route('/api/orders', methods=['GET', 'POST'])
+def api_orders():
+    if request.method == 'GET':
+        return jsonify(load_json_file(ORDERS_FILE))
+    
+    # POST
+    data = request.get_json()
+    if not data: return jsonify({'error': 'No data'}), 400
+    
+    orders = load_json_file(ORDERS_FILE)
+    # Ensure ID
+    if 'id' not in data:
+        data['id'] = f"ORD-{int(time.time())}"
+    if 'status' not in data:
+        data['status'] = 'Pending'
+    data['created_at'] = time.strftime('%Y-%m-%d %H:%M:%S')
+    
+    orders.insert(0, data)
+    save_json_file(ORDERS_FILE, orders)
+    return jsonify({'success': True, 'order_id': data['id']})
+
+@app.route('/api/contact', methods=['POST'])
+def api_contact():
+    data = request.get_json()
+    contacts = load_json_file(CONTACTS_FILE)
+    data['timestamp'] = time.time()
+    contacts.append(data)
+    save_json_file(CONTACTS_FILE, contacts)
+    return jsonify({'success': True})
+
 def save_farmer():
     data = request.get_json()
     # Example fields: name, phone, address, etc.

@@ -1,227 +1,244 @@
 <!doctype html>
-<html lang="hi">
+<html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Add to Cart</title>
-  
+  <title>Shop - Krishi Suvidha</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="chat.css" />
   <style>
-    *{box-sizing:border-box;}
-body{margin:0;background:var(--bg);color:#111;line-height:1.5}
-.container{max-width:var(--container);margin:0 auto;padding:0 20px}
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 350px;
+      height: 100vh;
+      background: white;
+      box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      transition: right 0.3s ease;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
 
-/* topbar */
-.topbar{background:#0d8a4a;color:#041d03;font-size:14px}
-.topbar-inner{display:flex;justify-content:space-between;align-items:center;padding:8px 0}
+    .cart-drawer.open {
+      right: 0;
+    }
 
-    :root{--accent:#2b8a3e;--muted:#666}
-    body{font-family:Inter, system-ui, Arial; margin:0; background:#022c02}
-    header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:#f7f8f7;border-bottom:1px solid #eee}
-    h1{margin:0;font-size:18px}
-    .container{max-width:1100px;margin:10px auto;padding:0 16px}
-    .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
-    .card{background:#fff;border-radius:10px;padding:14px;border:1px solid #eee;box-shadow:0 6px 18px rgba(155, 36, 36, 0.03)}
-    .card img{width:100%;height:140px;object-fit:cover;border-radius:8px}
-    .card h3{margin:10px 0 6px;font-size:16px}
-    .price{font-weight:700;color:var(--accent)}
-    .btn{display:inline-block;padding:8px 12px;border-radius:8px;border:0;cursor:pointer;background:var(--accent);color:#fff}
-    .btn.secondary{background:#eee;color:#333}
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      margin: 20px 0;
+    }
 
-    /* Cart UI */
-    .cart-toggle{position:relative}
-    .cart-bubble{position:absolute;right:-10px;top:-10px;background:#ff4d4f;color:#fff;border-radius:999px;padding:4px 7px;font-size:12px}
-    .cart-drawer{position:fixed;right:18px;top:70px;width:340px;max-height:70vh;background:#fff;border-radius:12px;border:1px solid #e7e7e7;padding:12px;box-shadow:0 10px 30px rgba(0,0,0,0.08);overflow:auto}
-    .cart-item{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px dashed #eee}
-    .cart-item img{width:56px;height:56px;object-fit:cover;border-radius:6px}
-    .qty{display:flex;align-items:center;gap:6px}
-    .qty button{padding:6px 8px;border-radius:6px;border:1px solid #ddd;background:#fafafa}
-    .cart-footer{padding-top:10px;display:flex;justify-content:space-between;align-items:center}
+    .cart-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      align-items: center;
+    }
 
-    /* Responsive */
-    @media (max-width:600px){.cart-drawer{right:8px;width:90vw}}
+    .cart-item img {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .cart-footer {
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
   </style>
 </head>
+
 <body>
-     <div class="topbar">
+
+  <!-- Header -->
+  <div class="topbar">
     <div class="container topbar-inner">
-      <div>✉️ ayushsk2041@gmail.com</div>
-      <div>📞 +91 8961103171</div>
-        <div class="socials"></div>
+      <div>🌱 Seasonal Offers Live!</div>
       <div id="google_translate_element"></div>
     </div>
   </div>
-  <header>
-    <h1>Krishi Suvidha Shop</h1>
-    <div>
-      <button id="view-cart" class="btn cart-toggle">Cart 🛒 <span id="cart-count" class="cart-bubble" style="display:none">0</span></button>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">Krishi Suvidha</a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="Add-to-cart.html" style="color:var(--primary)">Shop</a>
+        <a href="orders-dashboard.html">My Orders</a>
+        <a href="contact-dashboard.html">Contact</a>
+      </nav>
+      <div class="cta">
+        <button class="btn btn-outline" onclick="toggleCart()">Cart (<span id="cart-count">0</span>)</button>
+      </div>
     </div>
   </header>
 
-  <main class="container">
-    <section class="products" id="products"></section>
-  </main>
+  <!-- Hero -->
+  <section class="hero" style="min-height:300px;">
+    <div class="hero-bg"
+      style="background-image:url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80')">
+    </div>
+    <div class="hero-content">
+      <h1>Fresh Market</h1>
+      <p>Direct from farmers to your kitchen.</p>
+    </div>
+  </section>
 
-  <!-- Cart drawer (hidden until items added) -->
-  <div id="cart-drawer" class="cart-drawer" style="display:none">
-    <h3 style="margin:6px 0">Your Cart</h3>
-    <div id="cart-items"></div>
+  <!-- Products -->
+  <section class="container" style="padding: 60px 20px;">
+    <div class="grid-cols-4" id="product-grid">
+      <!-- Loaded via JS -->
+    </div>
+  </section>
+
+  <!-- Cart Sidebar -->
+  <div class="cart-drawer" id="cart-drawer">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h3>Your Cart</h3>
+      <button onclick="toggleCart()"
+        style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <p class="text-center" style="color:#64748b; margin-top:40px;">Your cart is empty.</p>
+    </div>
     <div class="cart-footer">
-      <div>
-        <div style="font-weight:700">Total: <span id="cart-total">₹0.00</span></div>
-        <div style="font-size:12px;color:var(--muted)">Taxes and shipping not included</div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:16px; font-weight:700; font-size:1.1rem;">
+        <span>Total</span>
+        <span id="cart-total">₹0.00</span>
       </div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <button id="checkout" class="btn">Checkout</button>
-        <button id="clear-cart" class="btn secondary">Clear</button>
-      </div>
+      <button class="btn btn-primary" style="width:100%" onclick="checkout()">Proceed to Checkout</button>
     </div>
   </div>
 
   <script>
-    // Sample product data (you can replace / fetch from server)
+    // Demo Products
     const products = [
-      {id:1,name:'Wheat (1 kg)',price:25,image:'https://engrain.us/wp-content/uploads/2023/05/shutterstock_488899324-scaled.jpg'},
-      {id:2,name:'Rice (1 kg)',price:35,image:'https://static.vecteezy.com/system/resources/previews/003/115/104/non_2x/asian-rice-in-wooden-spoon-free-photo.jpg'},
-      {id:3,name:'Green Chilli (1 kg)',price:150,image:'https://cdn.webshopapp.com/shops/301900/files/367703236/green-chilli-100gr.jpg'},
-      {id:4,name:'Pulses (1 kg)',price:100,image:'https://www.shutterstock.com/image-photo/multi-color-pulses-background-260nw-341046509.jpg'},
-      {id:5,name:'Green Peas (1 kg)',price:45,image:'https://wallup.net/wp-content/uploads/2019/09/6604-fresh-green-peas.jpg'},
-       {id:6,name:'Organic Apples (1 kg)',price:120,image:'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=800&q=60'},
-      {id:7,name:'Banana (1 kg)',price:40,image:'https://www.rainforest-alliance.org/wp-content/uploads/2021/06/bananas-1-e1624909301641.jpg.optimal.jpg'},
-      {id:8,name:'Strawberries (1 kg)',price:150,image:'https://th.bing.com/th/id/R.879a263fc43d2a511368c8262254edef?rik=%2bYlazC3829Ef%2bw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-kh8TANGkcBE%2fUN-3KrCPeHI%2fAAAAAAAABf8%2fdu-bqzL13As%2fs1600%2fStrawberries%2b2.jpg&ehk=H%2bLpgrsypUyejRxhCpXqN%2f%2br59gSzm%2ffL3l4xdbeJd0%3d&risl=&pid=ImgRaw&r=0'},
-      {id:9,name:'Mango(1 kg)',price:50,image:'https://media.easemytrip.com/media/Blog/India/636963790834862178/636963790834862178a7YxVj.jpg'},
-      {id:10,name:'Dry Fruits (1 kg)',price:205,image:'https://tse1.explicit.bing.net/th/id/OIP.hcGPC30dm-5rlZWtFccO3QHaE8?rs=1&pid=ImgDetMain&o=7&rm=3'},
+      { id: 1, name: 'Wheat (10kg)', price: 450, img: 'https://engrain.us/wp-content/uploads/2023/05/shutterstock_488899324-scaled.jpg' },
+      { id: 2, name: 'Basmati Rice (5kg)', price: 650, img: 'https://static.vecteezy.com/system/resources/previews/003/115/104/non_2x/asian-rice-in-wooden-spoon-free-photo.jpg' },
+      { id: 3, name: 'Fresh Tomatoes (1kg)', price: 40, img: 'https://cdn.webshopapp.com/shops/301900/files/367703236/green-chilli-100gr.jpg' },
+      { id: 4, name: 'Organic Pulses (1kg)', price: 120, img: 'https://www.shutterstock.com/image-photo/multi-color-pulses-background-260nw-341046509.jpg' },
+      { id: 5, name: 'Green Peas (1kg)', price: 60, img: 'https://wallup.net/wp-content/uploads/2019/09/6604-fresh-green-peas.jpg' },
+      { id: 6, name: 'Red Apples (1kg)', price: 180, img: 'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=800' },
+      { id: 7, name: 'Bananas (Dozen)', price: 60, img: 'https://www.rainforest-alliance.org/wp-content/uploads/2021/06/bananas-1-e1624909301641.jpg.optimal.jpg' },
+      { id: 8, name: 'Alphanso Mango (1kg)', price: 350, img: 'https://media.easemytrip.com/media/Blog/India/636963790834862178/636963790834862178a7YxVj.jpg' }
     ];
 
-    // Cart state
-    let cart = {} // {productId: { ...product, qty }}
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
-    // DOM refs
-    const productsEl = document.getElementById('products');
-    const cartCount = document.getElementById('cart-count');
-    const cartDrawer = document.getElementById('cart-drawer');
-    const cartItemsEl = document.getElementById('cart-items');
-    const cartTotalEl = document.getElementById('cart-total');
-    const viewCartBtn = document.getElementById('view-cart');
-    const checkoutBtn = document.getElementById('checkout');
-    const clearBtn = document.getElementById('clear-cart');
-
-    // Render products
-    function renderProducts(){
-      productsEl.innerHTML = '';
-      products.forEach(p => {
-        const card = document.createElement('div'); card.className='card';
-        card.innerHTML = `
-          <img src="${p.image}" alt="${p.name}">
-          <h3>${p.name}</h3>
-          <div class="price">₹${p.price.toFixed(2)}</div>
-          <div style="margin-top:10px">
-            <button class="btn" data-id="${p.id}">Add to Cart</button>
-          </div>
-        `;
-        productsEl.appendChild(card);
-      });
-
-      // attach listeners
-      document.querySelectorAll('.card .btn').forEach(b => b.addEventListener('click', (e)=>{
-        const id = Number(e.currentTarget.dataset.id);
-        addToCart(id);
-      }));
-    }
-
-    // Add to cart
-    function addToCart(id){
-      const product = products.find(p=>p.id===id);
-      if(!product) return;
-      if(cart[id]) cart[id].qty += 1; else cart[id] = {...product, qty:1};
-      saveCart();
-      updateCartUI();
-      showCart();
-    }
-
-    function increaseQty(id){ cart[id].qty += 1; saveCart(); updateCartUI(); }
-    function decreaseQty(id){ cart[id].qty -= 1; if(cart[id].qty<=0) delete cart[id]; saveCart(); updateCartUI(); }
-    function removeItem(id){ delete cart[id]; saveCart(); updateCartUI(); }
-
-    function updateCartUI(){
-      const items = Object.values(cart);
-      // count bubble
-      const totalQty = items.reduce((s,i)=>s+i.qty,0);
-      if(totalQty>0){ cartCount.style.display='inline-block'; cartCount.textContent = totalQty; } else { cartCount.style.display='none'; }
-
-      // items list
-      cartItemsEl.innerHTML = items.length === 0 ? '<div style="padding:12px;color:var(--muted)">Cart is empty.</div>' : '';
-      items.forEach(item=>{
-        const node = document.createElement('div'); node.className='cart-item';
-        node.innerHTML = `
-          <img src="${item.image}" alt="${item.name}">
-          <div style="flex:1">
-            <div style="font-weight:600">${item.name}</div>
-            <div style="font-size:14px;color:var(--muted)">₹${item.price.toFixed(2)} × ${item.qty} = ₹${(item.price*item.qty).toFixed(2)}</div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
-            <div class="qty">
-              <button data-action="dec" data-id="${item.id}">−</button>
-              <div style="min-width:22px;text-align:center">${item.qty}</div>
-              <button data-action="inc" data-id="${item.id}">+</button>
+    function renderProducts() {
+      const grid = document.getElementById('product-grid');
+      grid.innerHTML = products.map(p => `
+            <div class="product-card">
+                <img src="${p.img}" alt="${p.name}" class="product-img">
+                <h4 style="margin-bottom:4px;">${p.name}</h4>
+                <div class="product-price">₹${p.price}</div>
+                <button class="btn btn-outline small" onclick="addToCart(${p.id})">Add to Cart</button>
             </div>
-            <button data-action="remove" data-id="${item.id}" style="font-size:12px;border:0;background:none;color:#c33;cursor:pointer">Remove</button>
-          </div>
-        `;
-        cartItemsEl.appendChild(node);
-      });
+        `).join('');
+    }
 
-      // attach listeners for qty and remove
-      cartItemsEl.querySelectorAll('[data-action]').forEach(btn=>{
-        btn.addEventListener('click', (e)=>{
-          const id = Number(e.currentTarget.dataset.id);
-          const action = e.currentTarget.dataset.action;
-          if(action==='inc') increaseQty(id);
-          if(action==='dec') decreaseQty(id);
-          if(action==='remove') removeItem(id);
+    function addToCart(id) {
+      const p = products.find(x => x.id === id);
+      const existing = cart.find(x => x.id === id);
+      if (existing) existing.qty++;
+      else cart.push({ ...p, qty: 1 });
+      updateCart();
+      toggleCart(true);
+    }
+
+    function updateCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      document.getElementById('cart-count').innerText = cart.reduce((a, b) => a + b.qty, 0);
+
+      const items = document.getElementById('cart-items');
+      if (cart.length === 0) {
+        items.innerHTML = '<p class="text-center" style="color:#64748b; margin-top:40px;">Your cart is empty.</p>';
+        document.getElementById('cart-total').innerText = '₹0.00';
+        return;
+      }
+
+      items.innerHTML = cart.map(item => `
+            <div class="cart-item">
+                <img src="${item.img}">
+                <div style="flex:1;">
+                    <div style="font-weight:600; font-size:0.9rem;">${item.name}</div>
+                    <div style="font-size:0.8rem; color:#64748b;">₹${item.price} x ${item.qty}</div>
+                </div>
+                <button onclick="removeFromCart(${item.id})" style="color:red; border:none; background:none; cursor:pointer;">&times;</button>
+            </div>
+        `).join('');
+
+      const total = cart.reduce((a, b) => a + (b.price * b.qty), 0);
+      document.getElementById('cart-total').innerText = '₹' + total;
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(x => x.id !== id);
+      updateCart();
+    }
+
+    function toggleCart(open) {
+      const d = document.getElementById('cart-drawer');
+      if (open === true) d.classList.add('open');
+      else if (open === false) d.classList.remove('open');
+      else d.classList.toggle('open');
+    }
+
+    async function checkout() {
+      if (cart.length === 0) return alert('Cart is empty!');
+      const name = prompt("Enter your Name for the order:");
+      if (!name) return;
+
+      try {
+        const res = await fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: name,
+            items: cart,
+            amount: cart.reduce((a, b) => a + (b.price * b.qty), 0),
+            product: cart.map(i => `${i.name} (${i.qty})`).join(', ') // Compat with simple dashboard
+          })
         });
-      });
-
-      // total
-      const total = items.reduce((s,i)=>s + i.price*i.qty, 0);
-      cartTotalEl.textContent = `₹${total.toFixed(2)}`;
+        const data = await res.json();
+        if (data.success) {
+          alert('Order Placed! ID: ' + data.order_id);
+          cart = [];
+          updateCart();
+          toggleCart(false);
+          window.location.href = 'orders-dashboard.html';
+        }
+      } catch (e) {
+        alert('Error placing order');
+      }
     }
 
-    function showCart(){ cartDrawer.style.display='block'; cartDrawer.scrollIntoView({behavior:'smooth', block:'center'}); }
-    function hideCart(){ cartDrawer.style.display='none'; }
-
-    // persistence
-    function saveCart(){ localStorage.setItem('demo_cart', JSON.stringify(cart)); }
-    function loadCart(){ const raw = localStorage.getItem('demo_cart'); if(raw){ try{ cart = JSON.parse(raw);}catch(e){cart={}} } }
-
-    // Clear
-    clearBtn.addEventListener('click', ()=>{ if(confirm('Clear cart?')){ cart = {}; saveCart(); updateCartUI(); hideCart(); } });
-
-    // Checkout demo
-    checkoutBtn.addEventListener('click', ()=>{
-      const items = Object.values(cart);
-      if(items.length===0){ alert('Cart is empty'); return; }
-      alert('Checkout — total ' + cartTotalEl.textContent + '\n(This is a demo alert)');
-      // for real app: send cart to server here
-    });
-
-    // toggle cart on button
-    viewCartBtn.addEventListener('click', ()=>{ if(cartDrawer.style.display==='none') showCart(); else hideCart(); });
-
-    // init
-    loadCart(); renderProducts(); updateCartUI();
-
-    // expose for debugging (optional)
-    window._cart = cart;
+    renderProducts();
+    updateCart();
   </script>
-    <script type="text/javascript">
+
+  <!-- Google Translate -->
+  <script type="text/javascript">
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'en,hi,',
-      includedLanguages: 'aa,ab,ae,af,ak,am,an,ar,as,av,ay,az,ba,be,bg,bh,bi,bm,bn,bo,br,bs,ca,ce,cs,cu,cv,cy,da,de,dv,dz,ee,el,en,eo,es,et,eu,fa,ff,fi,fj,fo,fr,fy,ga,gd,gl,gn,gu,gv,ha,he,hi,ho,hr,ht,hu,hy,hz,ia,id,ie,ig,ii,ik,io,is,it,iu,ja,jv,ka,kg,ki,kj,kk,kl,km,kn,ko,kr,ks,ku,kv,kw,ky,la,lb,lg,li,ln,lo,lt,lu,lv,mg,mh,mi,mk,ml,mn,mo,mr,ms,mt,my,na,nb,nd,ne,ng,nl,nn,no,nr,oc,oj,om,or,os,pa,pi,pl,ps,pt,qu,rm,rn,ro,ru,rw,sa,sc,sd,se,sg,sh,si,sk,sl,sm,sn,so,sq,sr,ss,st,sv,sw,ta,te,tg,th,ti,tk,tl,tn,to,tr,ts,tt,tw,ty,ug,uk,ur,uz,ve,vi,vo,wa,wo,xh,yi,yo,za,zh,zu',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-      }, 'google_translate_element');
+      new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
     }
   </script>
-   <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <!-- Chat -->
+  <script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    createChat({ webhookUrl: 'https://kshitij-garg123.app.n8n.cloud/webhook/8f522b8e-9282-42a5-bede-be9063ebe427/chat' });
+  </script>
+
 </body>
+
 </html>

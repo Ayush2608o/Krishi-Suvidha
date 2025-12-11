@@ -1,61 +1,41 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>🌱 Krishi Suvidha - AR Measure with 3D</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="kkk.css">
-    <link rel="stylesheet" href="kk.css">
-    <link rel="stylesheet" href="google.css">
-    <style>
-        :root{
-            --green:#2e7d32; --bg:#f0f5f1; --muted:#6b7280;
-        }
-        body{margin:0;font-family:Montserrat,system-ui,Arial;background:var(--bg);color:#0b3a24}
-        header{background:var(--green);color:#fff;padding:12px 18px;font-weight:700}
-        .container{max-width:1100px;margin:18px auto;padding:12px}
-        .layout{display:grid;grid-template-columns:1fr 460px;gap:18px}
-        .panel{background:#fff;border-radius:12px;padding:12px;box-shadow:0 8px 24px rgba(8,15,20,0.06)}
-        #wrap{position:relative;border-radius:10px;overflow:hidden}
-        video{width:100%;height:60vh;object-fit:cover;display:block;background:#000}
-        canvas#draw-canvas{position:absolute;left:0;top:0;pointer-events:none}
-        #point-markers{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
-        .point-marker{position:absolute;width:18px;height:18px;background:#ff5b5b;border:3px solid #fff;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 4px 12px rgba(0,0,0,0.25)}
-        .line-label{position:absolute;background:var(--green);color:#fff;padding:4px 8px;border-radius:8px;font-weight:700;font-size:13px;transform:translate(-50%,-50%);pointer-events:none}
-        .controls{display:flex;gap:8px;align-items:center;margin-top:10px}
-        .controls button, .controls input{padding:8px 12px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
-        .btn-primary{background:var(--green);color:#fff}
-        .btn-ghost{background:#fff;border:1px solid #ddd;color:#0b3a24}
-        #summary{margin-top:10px;font-weight:700;color:#0b3a24}
-        /* 3D modal */
-        .modal { position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:9999; background:rgba(6,8,10,0.55); }
-        .modal-inner{width:90%;max-width:1100px;height:80vh;background:#fff;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
-        #three-container{flex:1;position:relative; background:#e6f4ea}
-        .modal-toolbar{display:flex;gap:8px;padding:10px;border-bottom:1px solid #eee;align-items:center}
-        .measure-bubble{position:absolute;left:8px;top:8px;background:rgba(0,0,0,0.6);color:#fff;padding:8px 10px;border-radius:8px;font-weight:700;z-index:10}
-        .side-panel{padding:10px;width:460px}
-        .field{margin-bottom:8px}
-        .small{font-size:13px;color:var(--muted)}
-        footer{margin-top:18px;text-align:center;color:var(--muted)}
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Krishi Suvidha - AR Field Measure</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="main.css">
+  <!-- Using ar-measure.css as the primary source of truth for this page's style -->
 </head>
+
 <body>
-   <div class="topbar">
-    <div class="container topbar-inner">
-      <div>✉️ ayushsk2041@gmail.com</div>
-      <div>📞 +91 8961103171</div>
-        <div class="socials"></div>
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div>
+        <span>✉️ ayushsk2041@gmail.com</span>
+        <span style="margin-left: 15px;">📞 +91 8961103171</span>
+      </div>
       <div id="google_translate_element"></div>
     </div>
   </div>
 
+  <!-- Header -->
   <header class="site-header">
-    <div class="container header-inner">
-      <div class="logo">
-        <h1>Krishi Suvidha</h1>
-      </div>
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <span>🌱 Krishi Suvidha</span>
+      </a>
       <nav class="nav">
         <a href="index.html#home">Home</a>
         <a href="Grains.html">Grains</a>
@@ -64,73 +44,117 @@
         <a href="orders-dashboard.html">Orders</a>
         <a href="about-dashboard.html">About</a>
         <a href="contact-dashboard.html">Contact</a>
+        <a href="#" class="btn btn-primary" style="padding: 6px 16px; margin-left: 10px;">Chat & Quote</a>
       </nav>
-      <div class="cta">
-        <button class="btn btn-outline">Chat & Quote</button>
-      </div>
     </div>
   </header>
 
-  <div class="container">
-    <div class="layout">
-      <div class="panel">
-        <h3>Camera / Point Capture</h3>
-        <div id="wrap">
-          <video id="video" autoplay playsinline></video>
+  <div class="wrapper">
+    <div class="ar-layout">
+
+      <!-- Main Viewport Panel -->
+      <div class="card-panel">
+        <div class="card-header">
+          <h2 class="card-title">📷 Camera View</h2>
+          <div class="input-group">
+            <span style="font-size:0.85rem; color:#64748b;">Scale (m/px):</span>
+            <input id="scale-input" type="number" step="0.0001" value="0.01" />
+          </div>
+        </div>
+
+        <div class="video-wrapper">
+          <video id="video" autoplay playsinline muted></video>
           <canvas id="draw-canvas"></canvas>
           <div id="point-markers"></div>
         </div>
 
-        <div class="controls">
-          <button id="btn-clear" class="btn-ghost">Clear</button>
-          <button id="btn-undo" class="btn-ghost">Undo</button>
-          <button id="btn-3d" class="btn-primary">3D View</button>
+        <div class="toolbar">
+          <button id="btn-3d" class="btn btn-primary">
+            <span>🧊 View 3D Model</span>
+          </button>
+          <div style="flex:1"></div>
+          <button id="btn-undo" class="btn btn-secondary">
+            <span>Undo</span>
+          </button>
+          <button id="btn-clear" class="btn btn-danger">
+            <span>Reset All</span>
+          </button>
+        </div>
 
-          <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-            <label class="small">Scale (m / px)</label>
-            <input id="scale-input" type="number" step="0.0001" value="0.01" style="width:110px;border-radius:8px;border:1px solid #ddd;padding:6px" />
+        <div class="stats-bar">
+          <div class="stat-item">
+            <div class="stat-label">Total Distance</div>
+            <div class="stat-value" id="summary-distance">0 m</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Area</div>
+            <div class="stat-value" id="summary-area">0 m²</div>
+          </div>
+        </div>
+        <div id="summary" style="display:none"></div>
+        <!-- Legacy ID for JS compatibility if needed, but we will update JS to write to new IDs if possible, or keep this hidden and sync -->
+      </div>
+
+      <!-- Side Panel -->
+      <div class="card-panel">
+        <div class="card-header">
+          <h3 class="card-title">📍 Points</h3>
+        </div>
+        <div id="point-list" class="points-list">
+          <!-- Points injected here -->
+          <div style="padding:20px; text-align:center; color:#94a3b8; font-size:0.9rem;">
+            Click on the video to add measurement points.
           </div>
         </div>
 
-        <div id="summary">Distance: 0 m • Area: 0 m² (0 ft²)</div>
-        <div class="small" style="margin-top:8px">Tip: Click on the video to place points on the ground. Use scale to calibrate real-world size.</div>
+        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border);">
+          <h4 style="margin-bottom:12px; font-size:0.95rem; color:var(--dark);">Quick Exports</h4>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <button id="btn-export-obj" class="btn btn-secondary" style="font-size:0.8rem;">Save OBJ</button>
+            <button id="btn-export-gltf" class="btn btn-secondary" style="font-size:0.8rem;">Save GLTF</button>
+          </div>
+          <button id="btn-screenshot" class="btn btn-secondary"
+            style="width:100%; margin-top:10px; font-size:0.8rem;">Save Screenshot</button>
+        </div>
       </div>
 
-      <div class="panel side-panel">
-        <h4>Points</h4>
-        <div id="point-list" style="max-height:52vh;overflow:auto;padding-right:6px"></div>
-        <hr/>
-        <h4>Exports & Controls</h4>
-        <div class="field">
-          <button id="btn-export-obj" class="btn-ghost">Save OBJ</button>
-          <button id="btn-export-gltf" class="btn-ghost">Save GLTF</button>
-        </div>
-        <div class="field">
-          <button id="btn-screenshot" class="btn-ghost">Save 3D Screenshot</button>
-        </div>
-        <div style="margin-top:12px" class="small">3D View exports extruded polygon (height chosen by you inside 3D modal). Click the 3D model to see measurements (area, diameter).</div>
-      </div>
     </div>
-
-    <footer>Made with ❤️ for Farmers — Click "3D View" to open interactive 3D model</footer>
   </div>
 
+  <!-- Fullscreen 3D Modal -->
   <div class="modal" id="modal-3d" role="dialog" aria-hidden="true">
-    <div class="modal-inner">
-      <div class="modal-toolbar">
-        <button id="modal-close" class="btn-ghost">Close</button>
-        <button id="modal-export-obj" class="btn-ghost">Export OBJ</button>
-        <button id="modal-export-gltf" class="btn-ghost">Export GLTF</button>
-        <label style="margin-left:8px">Extrude height (m)</label>
-        <input id="extrude-height" type="number" step="0.01" value="0.2" style="width:80px;border-radius:8px;border:1px solid #ddd;padding:6px" />
-        <button id="modal-screenshot" class="btn-ghost" style="margin-left:auto">Screenshot</button>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-size:1.1rem;">Interactive 3D View</h3>
+        <div class="modal-controls">
+          <div class="input-group">
+            <span style="font-size:0.85rem; color:#64748b;">Extrude (m):</span>
+            <input id="extrude-height" type="number" step="0.01" value="0.2" />
+          </div>
+          <button id="modal-close" class="btn btn-secondary">Close</button>
+        </div>
       </div>
-      <div id="three-container">
-        <div class="measure-bubble" id="three-info" style="display:none"></div>
+
+      <div class="modal-body">
+        <div id="three-container" style="width:100%; height:100%;"></div>
+
+        <!-- Floating HUD for 3D view -->
+        <div class="floating-info" id="three-info"></div>
+
+        <div
+          style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display:flex; gap:12px; background: rgba(255,255,255,0.9); padding: 8px 12px; border-radius: 99px; box-shadow: var(--shadow-lg);">
+          <button id="modal-export-obj" class="btn btn-primary" style="padding: 8px 16px; font-size:0.8rem;">📥
+            OBJ</button>
+          <button id="modal-export-gltf" class="btn btn-primary" style="padding: 8px 16px; font-size:0.8rem;">📥
+            GLTF</button>
+          <button id="modal-screenshot" class="btn btn-secondary" style="padding: 8px 16px; font-size:0.8rem;">📸
+            Shot</button>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Three.js Setup -->
   <script type="importmap">
     {
       "imports": {
@@ -146,7 +170,7 @@
     import { OBJExporter } from 'three/addons/exporters/OBJExporter.js';
     import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 
-    (function(){
+    (function () {
       // Elements
       const video = document.getElementById('video');
       const drawCanvas = document.getElementById('draw-canvas');
@@ -156,7 +180,8 @@
       const btnUndo = document.getElementById('btn-undo');
       const btn3D = document.getElementById('btn-3d');
       const scaleInput = document.getElementById('scale-input');
-      const summary = document.getElementById('summary');
+      const summaryDistance = document.getElementById('summary-distance');
+      const summaryArea = document.getElementById('summary-area');
       const pointList = document.getElementById('point-list');
       const btnExportOBJ = document.getElementById('btn-export-obj');
       const btnExportGLTF = document.getElementById('btn-export-gltf');
@@ -173,31 +198,38 @@
       const threeInfo = document.getElementById('three-info');
 
       // Data
-      let points = []; // each point: {x,y, screenX, screenY}
-      let scale = parseFloat(scaleInput.value) || 0.01; // meters per pixel
+      let points = []; // click points
+      let scale = parseFloat(scaleInput.value) || 0.01;
 
-      // Resize draw canvas to video size
-      function resizeCanvas(){
-        drawCanvas.width = video.clientWidth;
-        drawCanvas.height = video.clientHeight;
+      // Resize
+      function resizeCanvas() {
+        if (video.videoWidth) {
+          drawCanvas.width = video.clientWidth;
+          drawCanvas.height = video.clientHeight;
+        }
       }
       window.addEventListener('resize', resizeCanvas);
+      video.addEventListener('loadedmetadata', resizeCanvas);
 
-      // Start camera
-      async function startCamera(){
-        try{
-          const stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}, audio:false});
+      // Camera
+      async function startCamera() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: 'environment' },
+            audio: false
+          });
           video.srcObject = stream;
           await video.play();
           resizeCanvas();
-        }catch(e){
-          alert('Camera access denied or not available.');
+        } catch (e) {
+          console.error(e);
+          alert('Camera access denied. Please allow camera permissions.');
         }
       }
       startCamera();
 
-      // Helpers: add marker UI
-      function addMarker(x,y){
+      // UI Helpers
+      function addMarker(x, y) {
         const m = document.createElement('div');
         m.className = 'point-marker';
         m.style.left = x + 'px';
@@ -205,121 +237,139 @@
         markers.appendChild(m);
         return m;
       }
+      function clearMarkers() { markers.innerHTML = ''; }
 
-      function clearMarkers(){
-        markers.innerHTML = '';
-      }
-
-      // Add point on video click
+      // Interaction
       video.addEventListener('click', (ev) => {
         const rect = video.getBoundingClientRect();
         const screenX = ev.clientX - rect.left;
         const screenY = ev.clientY - rect.top;
-        const pxX = screenX;
-        const pxY = screenY;
-        points.push({pxX, pxY});
+        points.push({ pxX: screenX, pxY: screenY });
         addMarker(screenX, screenY);
         redraw();
         updateSummary();
         renderPointList();
       });
 
-      // Draw lines on overlay canvas
-      function redraw(){
-        ctx.clearRect(0,0,drawCanvas.width,drawCanvas.height);
-        if(points.length < 1) return;
+      // Canvas Drawing
+      function redraw() {
+        drawCanvas.width = video.clientWidth; // Ensure sync
+        drawCanvas.height = video.clientHeight;
+
+        ctx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+        if (points.length < 1) return;
+
         ctx.lineWidth = 3;
-        ctx.strokeStyle = "#00c853";
+        ctx.strokeStyle = "#ffc107"; // Accent color
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+
         ctx.beginPath();
         ctx.moveTo(points[0].pxX, points[0].pxY);
-        for(let i=1;i<points.length;i++){
+        for (let i = 1; i < points.length; i++) {
           ctx.lineTo(points[i].pxX, points[i].pxY);
         }
         ctx.stroke();
 
-        // Close polygon if >=3
-        if(points.length >= 3){
+        if (points.length >= 3) {
           ctx.beginPath();
           ctx.moveTo(points[0].pxX, points[0].pxY);
-          for(let i=1;i<points.length;i++) ctx.lineTo(points[i].pxX, points[i].pxY);
+          for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].pxX, points[i].pxY);
           ctx.closePath();
-          ctx.globalAlpha = 0.08;
-          ctx.fillStyle = "#00c853";
+          ctx.globalAlpha = 0.15;
+          ctx.fillStyle = "#ffc107";
           ctx.fill();
           ctx.globalAlpha = 1;
         }
 
-        // draw distance labels between consecutive points
-        for(let i=1;i<points.length;i++){
-          drawDistanceLabel(points[i-1], points[i]);
+        // Labels
+        for (let i = 1; i < points.length; i++) {
+          drawDistanceLabel(points[i - 1], points[i]);
+        }
+        if (points.length >= 3) {
+          // Optional: Close loop label?
         }
       }
 
-      function drawDistanceLabel(p1, p2){
-        const midX = (p1.pxX + p2.pxX)/2;
-        const midY = (p1.pxY + p2.pxY)/2;
+      function drawDistanceLabel(p1, p2) {
+        const midX = (p1.pxX + p2.pxX) / 2;
+        const midY = (p1.pxY + p2.pxY) / 2;
         const distPx = Math.hypot(p1.pxX - p2.pxX, p1.pxY - p2.pxY);
         const distM = (distPx * scale).toFixed(2);
-        // simple label draw
-        ctx.font = "bold 13px Arial";
-        ctx.fillStyle = "#053018";
-        ctx.fillText(distM + " m", midX + 6, midY - 6);
+
+        // Background pill
+        const text = distM + " m";
+        ctx.font = "bold 12px Montserrat";
+        const width = ctx.measureText(text).width;
+
+        ctx.fillStyle = "rgba(15, 23, 42, 0.8)";
+        ctx.beginPath();
+        ctx.roundRect(midX - width / 2 - 6, midY - 10, width + 12, 20, 6);
+        ctx.fill();
+
+        ctx.fillStyle = "#fff";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(text, midX, midY);
       }
 
-      // Summary: total distance and polygon area
-      function updateSummary(){
-        if(points.length < 2){
-          summary.textContent = 'Distance: 0 m • Area: 0 m² (0 ft²)';
+      function updateSummary() {
+        if (points.length < 2) {
+          summaryDistance.textContent = '0 m';
+          summaryArea.textContent = '0 m²';
           return;
         }
-        // total path length
         let totalPx = 0;
-        for(let i=1;i<points.length;i++){
-          totalPx += Math.hypot(points[i].pxX - points[i-1].pxX, points[i].pxY - points[i-1].pxY);
+        for (let i = 1; i < points.length; i++) {
+          totalPx += Math.hypot(points[i].pxX - points[i - 1].pxX, points[i].pxY - points[i - 1].pxY);
         }
         const totalM = (totalPx * scale).toFixed(2);
+        summaryDistance.textContent = `${totalM} m`;
 
-        // polygon area if >=3
-        let areaM2 = 0;
-        let areaFt2 = 0;
-        if(points.length >= 3){
+        if (points.length >= 3) {
           const areaPx = polygonAreaPx(points);
-          areaM2 = (areaPx * scale * scale).toFixed(2);
-          areaFt2 = (areaM2 * 10.7639).toFixed(2);
+          const areaM2 = (areaPx * scale * scale).toFixed(2);
+          summaryArea.textContent = `${areaM2} m²`;
+        } else {
+          summaryArea.textContent = '0 m²';
         }
-        summary.textContent = `Distance: ${totalM} m • Area: ${areaM2} m² (${areaFt2} ft²)`;
       }
 
-      function polygonAreaPx(pts){
-        // Shoelace formula with screen coordinates (px)
+      function polygonAreaPx(pts) {
         let sum = 0;
-        for(let i=0;i<pts.length;i++){
+        for (let i = 0; i < pts.length; i++) {
           const a = pts[i];
-          const b = pts[(i+1)%pts.length];
+          const b = pts[(i + 1) % pts.length];
           sum += (a.pxX * b.pxY) - (b.pxX * a.pxY);
         }
         return Math.abs(sum / 2);
       }
 
-      // point list UI
-      function renderPointList(){
+      function renderPointList() {
         pointList.innerHTML = '';
-        points.forEach((p,i)=>{
+        if (points.length === 0) {
+          pointList.innerHTML = `<div style="padding:20px; text-align:center; color:#94a3b8; font-size:0.9rem;">Click on the video to add measurement points.</div>`;
+          return;
+        }
+        points.forEach((p, i) => {
           const div = document.createElement('div');
-          div.style.display='flex';
-          div.style.justifyContent='space-between';
-          div.style.padding='6px 0';
-          div.style.borderBottom = '1px dashed #eee';
-          const pxToM = (val)=> (val * scale).toFixed(2);
-          div.innerHTML = `<div>#${i+1} — x:${pxToM(p.pxX)} m, y:${pxToM(p.pxY)} m</div>
-            <div><button data-index="${i}" class="remove-btn" style="border:0;background:transparent;color:#d32f2f;cursor:pointer">Remove</button></div>`;
+          div.className = 'point-item';
+          const pxToM = (val) => (val * scale).toFixed(2);
+          div.innerHTML = `
+            <div class="point-info">
+                <span class="point-index">${i + 1}</span>
+                <span style="font-size:0.85rem; color:#475569;">x:${pxToM(p.pxX)}, y:${pxToM(p.pxY)}</span>
+            </div>
+            <button data-index="${i}" class="btn-danger remove-btn" style="padding:4px 8px;">×</button>
+          `;
           pointList.appendChild(div);
         });
-        // remove handlers
-        Array.from(document.querySelectorAll('.remove-btn')).forEach(btn=>{
-          btn.addEventListener('click', (ev)=>{
+
+        document.querySelectorAll('.remove-btn').forEach(btn => {
+          btn.addEventListener('click', (ev) => {
+            ev.stopPropagation();
             const idx = parseInt(btn.getAttribute('data-index'));
-            points.splice(idx,1);
+            points.splice(idx, 1);
             rebuildMarkers();
             redraw();
             updateSummary();
@@ -328,20 +378,20 @@
         });
       }
 
-      function rebuildMarkers(){
+      function rebuildMarkers() {
         markers.innerHTML = '';
         points.forEach(p => addMarker(p.pxX, p.pxY));
       }
 
-      // Clear & Undo
-      btnClear.addEventListener('click', ()=>{
+      // Actions
+      btnClear.addEventListener('click', () => {
         points = [];
         markers.innerHTML = '';
-        ctx.clearRect(0,0,drawCanvas.width,drawCanvas.height);
+        ctx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
         updateSummary();
         renderPointList();
       });
-      btnUndo.addEventListener('click', ()=>{
+      btnUndo.addEventListener('click', () => {
         points.pop();
         rebuildMarkers();
         redraw();
@@ -349,244 +399,206 @@
         renderPointList();
       });
 
-      // scale input change
-      scaleInput.addEventListener('change', ()=>{
+      scaleInput.addEventListener('change', () => {
         scale = parseFloat(scaleInput.value) || 0.01;
         updateSummary();
         redraw();
+        renderPointList(); // Updates coords in list
       });
 
-      // ------------- 3D Scene (Three.js) -------------
+      // 3D Logic
       let renderer, scene, camera, controls, modelMesh;
-      function initThree(container){
-        // clear prev if any
-        while(container.firstChild) container.removeChild(container.firstChild);
+      function initThree(container) {
+        while (container.firstChild) container.removeChild(container.firstChild);
 
-        renderer = new THREE.WebGLRenderer({antialias:true, preserveDrawingBuffer:true});
+        renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: true });
         renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setClearColor(0x000000, 0); // Transparent background
         container.appendChild(renderer.domElement);
 
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xeaf6ec);
+        // Light background for the scene itself not needed if we want it transparent, 
+        // but let's give it a subtle grid.
 
-        camera = new THREE.PerspectiveCamera(55, container.clientWidth / container.clientHeight, 0.01, 2000);
-        camera.position.set(0.8, 0.8, 0.8);
+        camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.01, 1000);
+        camera.position.set(2, 2, 2);
 
         controls = new OrbitControls(camera, renderer.domElement);
-        controls.target.set(0,0,0);
-        controls.update();
+        controls.enableDamping = true;
 
-        // grid + light
-        const grid = new THREE.GridHelper(10, 20, 0x0a3b1a, 0xe6f4ea);
-        grid.rotation.x = Math.PI/2;
-        scene.add(grid);
-
-        const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 0.9);
-        scene.add(hemi);
+        // Lights
+        const amb = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(amb);
         const dir = new THREE.DirectionalLight(0xffffff, 0.8);
-        dir.position.set(3,10,5);
+        dir.position.set(5, 10, 5);
         scene.add(dir);
 
-        // handle resize
-        window.addEventListener('resize', ()=> {
-          if(!renderer) return;
-          renderer.setSize(container.clientWidth, container.clientHeight);
-          camera.aspect = container.clientWidth / container.clientHeight;
+        // Grid
+        const grid = new THREE.GridHelper(20, 20, 0xcbd5e1, 0xe2e8f0);
+        scene.add(grid);
+
+        window.addEventListener('resize', () => {
+          if (!renderer || !modal.offsetParent) return; // Only if visible
+          const w = container.clientWidth;
+          const h = container.clientHeight;
+          renderer.setSize(w, h);
+          camera.aspect = w / h;
           camera.updateProjectionMatrix();
         });
 
-        function animate(){
+        function animate() {
+          if (!renderer) return;
           requestAnimationFrame(animate);
-          controls.update(); 
+          controls.update();
           renderer.render(scene, camera);
         }
         animate();
       }
 
-      // Build three.js model from points
-      function build3DModel(extrudeHeight){
-        if(modelMesh){
-          scene.remove(modelMesh);
-          modelMesh.traverse(child=>{ if(child.geometry) child.geometry.dispose(); });
-          modelMesh = null;
-        }
+      function build3DModel(extrudeHeight) {
+        if (modelMesh) { scene.remove(modelMesh); modelMesh = null; }
+        if (points.length < 3) return;
 
-        if(points.length < 3) return;
+        // Convert to meter-space 2D shape centered at 0,0
+        const vertsMeters = points.map(p => ({ x: (p.pxX * scale), z: (p.pxY * scale) }));
+        // Invert Y? Screen Y goes down, 3D Z goes whatever. Let's map Screen Y to 3D Z.
 
-        const vertsMeters = points.map(p => ({ x: (p.pxX * scale), z: -(p.pxY * scale) }));
+        // Centering
         let cx = 0, cz = 0;
-        for(const v of vertsMeters){ cx += v.x; cz += v.z; }
-        cx /= vertsMeters.length; cz /= vertsMeters.length;
-        const shifted = vertsMeters.map(v => ({ x: v.x - cx, z: v.z - cz }));
+        vertsMeters.forEach(v => { cx += v.x; cz += v.z; });
+        cx /= vertsMeters.length;
+        cz /= vertsMeters.length;
 
         const shape = new THREE.Shape();
-        shifted.forEach((v,i)=>{
-          if(i===0) shape.moveTo(v.x, v.z);
-          else shape.lineTo(v.x, v.z);
+        vertsMeters.forEach((v, i) => {
+          const x = v.x - cx;
+          const z = v.z - cz;
+          if (i === 0) shape.moveTo(x, z);
+          else shape.lineTo(x, z);
         });
         shape.closePath();
 
-        const extrudeSettings = { depth: extrudeHeight, bevelEnabled: false };
-        const geom = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-        geom.rotateX(-Math.PI / 2);
+        const geom = new THREE.ExtrudeGeometry(shape, {
+          depth: extrudeHeight,
+          bevelEnabled: true,
+          bevelThickness: 0.02,
+          bevelSize: 0.02,
+          bevelSegments: 2
+        });
+        // Rotate so it lays flat on grid (Extrude creates along Z usually, we want that to be vertical Y?)
+        // Actually Extrude geometry extrudes along Z. We want "Depth" to be UP (Y).
+        // So rotate X -90.
+        geom.rotateX(Math.PI / 2);
 
-        const mat = new THREE.MeshStandardMaterial({ color: 0x2e7d32, transparent:true, opacity:0.9, side: THREE.DoubleSide });
+        const mat = new THREE.MeshStandardMaterial({
+          color: 0x1f8f4a,
+          roughness: 0.3,
+          metalness: 0.1,
+          side: THREE.DoubleSide
+        });
         modelMesh = new THREE.Mesh(geom, mat);
+        // Center vertically based on height? Grid is at Y=0.
+        // If we rotated -90 deg X. 
+        modelMesh.position.y = extrudeHeight; // Just to be safe or adjust
+        // Reset position to center
         modelMesh.position.set(0, 0, 0);
-        modelMesh.userData.isTerrain = true;
+
         scene.add(modelMesh);
 
-        const wire = new THREE.LineSegments(new THREE.EdgesGeometry(geom), new THREE.LineBasicMaterial({ color: 0x053018 }));
-        scene.add(wire);
+        // Edges
+        const edges = new THREE.EdgesGeometry(geom);
+        const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x0f172a, transparent: true, opacity: 0.3 }));
+        scene.add(line);
 
-        const centroidMarker = new THREE.Mesh(new THREE.SphereGeometry(Math.max(0.01, extrudeHeight*0.08), 12, 12), new THREE.MeshBasicMaterial({ color: 0xffcc00 }));
-        centroidMarker.position.set(0, 0.02, 0);
-        scene.add(centroidMarker);
+        // Auto fitting camera
+        const box = new THREE.Box3().setFromObject(modelMesh);
+        const size = box.getSize(new THREE.Vector3());
+        const center = box.getCenter(new THREE.Vector3());
+        const maxDim = Math.max(size.x, size.y, size.z);
 
-        controls.target.set(0,0,0);
+        controls.target.copy(center);
+        camera.position.set(center.x + maxDim * 2, center.y + maxDim * 1.5, center.z + maxDim * 2);
         controls.update();
-        const bbox = new THREE.Box3().setFromObject(modelMesh);
-        const size = bbox.getSize(new THREE.Vector3());
-        const radius = Math.max(size.x, size.z);
-        camera.position.set(radius*1.5, radius*1.2, radius*1.5);
-        camera.lookAt(0,0,0);
-        controls.update();
 
-        // 3D model banne ke turant baad measurements dikhao
-        showModelMeasurements();
+        showInfo(vertsMeters);
       }
 
-      // compute measurements: area (m2) and max diameter (m)
-      function computeMeasurements(){
-        if(points.length < 3) return null;
-        const vertsMeters = points.map(p => ({ x: p.pxX * scale, z: -p.pxY * scale }));
+      function showInfo(verts) {
+        // Shoelace area
         let sum = 0;
-        for(let i=0;i<vertsMeters.length;i++){
-          const a = vertsMeters[i];
-          const b = vertsMeters[(i+1)%vertsMeters.length];
-          sum += (a.x * b.z) - (b.x * a.z);
+        for (let i = 0; i < verts.length; i++) {
+          const a = verts[i];
+          const b = verts[(i + 1) % verts.length];
+          sum += a.x * b.z - b.x * a.z;
         }
-        const areaM2 = Math.abs(sum/2);
-        let maxD = 0;
-        for(let i=0;i<vertsMeters.length;i++){
-          for(let j=i+1;j<vertsMeters.length;j++){
-            const dx = vertsMeters[i].x - vertsMeters[j].x;
-            const dz = vertsMeters[i].z - vertsMeters[j].z;
-            const d = Math.hypot(dx, dz);
-            if(d > maxD){ maxD = d; }
-          }
-        }
-        return { areaM2, diameterM: maxD };
+        const area = Math.abs(sum / 2);
+        const ft = (area * 10.764);
+        const txt = `Area: ${area.toFixed(2)} m²\n(${ft.toFixed(2)} sq ft)`;
+
+        threeInfo.innerText = txt;
+        threeInfo.classList.add('visible');
+        setTimeout(() => threeInfo.classList.remove('visible'), 8000);
       }
 
-      function showModelMeasurements(){
-        const m = computeMeasurements();
-        if(!m) return;
-        const areaFt2 = (m.areaM2 * 10.7639).toFixed(2);
-        const diameterM = m.diameterM.toFixed(3);
-        const text = `Area: ${m.areaM2.toFixed(3)} m² (${areaFt2} ft²) — Diameter: ${diameterM} m`;
-        threeInfo.style.display = 'block';
-        threeInfo.textContent = text;
-        setTimeout(()=>{ threeInfo.style.display='none'; }, 7000);
-      }
-
-      // Open 3D modal & init
-      btn3D.addEventListener('click', ()=>{
-        if(points.length < 3){
-          alert('Add at least 3 points to create 3D polygon.');
-          return;
-        }
+      btn3D.addEventListener('click', () => {
+        if (points.length < 3) { alert('Need at least 3 points.'); return; }
         modal.style.display = 'flex';
-        modal.setAttribute('aria-hidden','false');
-        initThree(threeContainer);
-        const extrudeH = parseFloat(extrudeHeightInput.value) || 0.2;
-        build3DModel(extrudeH);
+        modal.setAttribute('aria-hidden', 'false');
+        // Wait for display flex to take effect for sizing
+        requestAnimationFrame(() => {
+          initThree(threeContainer);
+          build3DModel(parseFloat(extrudeHeightInput.value) || 0.2);
+        });
       });
 
-      modalClose.addEventListener('click', ()=> {
+      modalClose.addEventListener('click', () => {
         modal.style.display = 'none';
-        modal.setAttribute('aria-hidden','true');
-        // Scene ko saaf karo
-        try{
-            scene.traverse(child => {
-                if(child.isMesh) {
-                    if(child.geometry) child.geometry.dispose();
-                    if(child.material) {
-                        if(Array.isArray(child.material)) {
-                            child.material.forEach(mat => mat.dispose());
-                        } else {
-                            child.material.dispose();
-                        }
-                    }
-                }
-            });
-            renderer.renderLists.dispose();
-            renderer.dispose();
-        } catch(e) {
-            console.error("Renderer disposal error:", e);
-        }
-        renderer = null;
-        threeContainer.innerHTML = '';
-      });
-
-      // Modal export handlers
-      modalExportOBJ.addEventListener('click', ()=>{
-        if(!modelMesh){ alert('3D model not built'); return; }
-        const exporter = new OBJExporter();
-        const objText = exporter.parse(modelMesh);
-        downloadText('model.obj', objText);
-      });
-      modalExportGLTF.addEventListener('click', ()=>{
-        if(!modelMesh){ alert('3D model not built'); return; }
-        const exporter = new GLTFExporter();
-        exporter.parse(modelMesh, function(result){
-          const out = JSON.stringify(result, null, 2);
-          downloadText('model.gltf', out);
-        }, {binary:false});
-      });
-      modalScreenshot.addEventListener('click', ()=>{
-        if(!renderer) return;
-        const dataURL = renderer.domElement.toDataURL('image/png');
-        downloadDataUrl('screenshot.png', dataURL);
-      });
-
-      // side-panel export triggers: open modal and export
-      btnExportOBJ.addEventListener('click', ()=>{
-        btn3D.click();
-      });
-      btnExportGLTF.addEventListener('click', ()=>{
-        btn3D.click();
-      });
-      btnScreenshot.addEventListener('click', ()=>{
-        btn3D.click();
-      });
-
-      extrudeHeightInput.addEventListener('change', ()=>{
-        if(renderer){
-          const extrudeH = parseFloat(extrudeHeightInput.value) || 0.2;
-          build3DModel(extrudeH);
+        modal.setAttribute('aria-hidden', 'true');
+        if (renderer) {
+          renderer.dispose();
+          renderer = null;
         }
       });
 
-      function downloadText(filename, text){
-        const blob = new Blob([text], {type:'text/plain'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
-        URL.revokeObjectURL(url);
-      }
-      function downloadDataUrl(filename, dataUrl){
-        const a = document.createElement('a');
-        a.href = dataUrl; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
-      }
+      extrudeHeightInput.addEventListener('change', () => {
+        if (renderer && modelMesh) {
+          build3DModel(parseFloat(extrudeHeightInput.value) || 0.2);
+        }
+      });
 
-      function init(){
-        redraw();
-        updateSummary();
+      // Exports
+      function dl(fname, txt) {
+        const b = new Blob([txt], { type: 'text/plain' });
+        const u = URL.createObjectURL(b);
+        const a = document.createElement('a'); a.href = u; a.download = fname;
+        document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(u);
       }
-      init();
+      modalExportOBJ.addEventListener('click', () => {
+        if (!modelMesh) return;
+        const res = new OBJExporter().parse(modelMesh);
+        dl('measure-model.obj', res);
+      });
+      modalExportGLTF.addEventListener('click', () => {
+        if (!modelMesh) return;
+        new GLTFExporter().parse(modelMesh, (gltf) => {
+          dl('measure-model.gltf', JSON.stringify(gltf));
+        });
+      });
+      modalScreenshot.addEventListener('click', () => {
+        if (renderer) {
+          const u = renderer.domElement.toDataURL('image/png');
+          const a = document.createElement('a'); a.href = u; a.download = 'screenshot.png';
+          document.body.appendChild(a); a.click(); a.remove();
+        }
+      });
+
+      // Side panel proxies
+      btnExportOBJ.addEventListener('click', () => btn3D.click());
+      btnExportGLTF.addEventListener('click', () => btn3D.click());
+      btnScreenshot.addEventListener('click', () => btn3D.click());
 
     })();
   </script>
 </body>
+
 </html>

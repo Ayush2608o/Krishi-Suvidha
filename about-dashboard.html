@@ -1,196 +1,251 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About Dashboard - Krishi Suvidha</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="about.css">
-  <link rel="stylesheet" href="kk.css">
-  <link rel="stylesheet" href="google.css">
-  <style>
-    .kpi-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-    .kpi{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:20px;text-align:left}
-    .kpi .label{color:var(--muted);font-weight:600;font-size:12px;margin-bottom:6px}
-    .kpi .value{font-size:28px;font-weight:800}
-    .kpi .sub{color:var(--muted);font-size:12px}
-    .about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:start}
-    .panel{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:22px}
-    .timeline{position:relative;padding-left:20px}
-    .timeline::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:#e5e7eb}
-    .timeline .item{position:relative;margin:14px 0}
-    .timeline .item::before{content:"";position:absolute;left:-2px;top:4px;width:10px;height:10px;border-radius:50%;background:#1f8f4a}
-    .team{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .member{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:16px;text-align:center}
-    .member img{width:90px;height:90px;border-radius:50%;object-fit:cover;box-shadow:var(--shadow)}
-    .member h4{margin:10px 0 4px 0}
-    .member p{margin:0;color:var(--muted);font-size:13px}
-    @media(max-width:980px){.kpi-cards{grid-template-columns:repeat(2,1fr)}.about-grid{grid-template-columns:1fr}.team{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:560px){.kpi-cards{grid-template-columns:1fr}.team{grid-template-columns:1fr}}
-  </style>
+  <title>About - Krishi Suvidha</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="main.css">
+  <!-- chat.css retained for functional consistency if needed, assuming it's a global widget -->
+  <link href="chat.css" rel="stylesheet" />
 </head>
+
 <body>
+
+  <!-- Topbar -->
   <div class="topbar">
-    <div class="container topbar-inner">
-      <div>✉️ ayushsk2041@gmail.com</div>
-      <div>📞 +91 896103171</div>
-      <div class="socials"></div>
+    <div class="topbar-inner">
+      <div>
+        <span>✉️ ayushsk2041@gmail.com</span>
+        <span style="margin-left: 15px;">📞 +91 8961103171</span>
+      </div>
       <div id="google_translate_element"></div>
     </div>
   </div>
 
+  <!-- Header -->
   <header class="site-header">
-    <div class="container header-inner">
-      <div class="logo">
-        <h1>Krishi Suvidha</h1>
-      </div>
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <span>🌱 Krishi Suvidha</span>
+      </a>
       <nav class="nav">
         <a href="index.html#home">Home</a>
         <a href="Grains.html">Grains</a>
         <a href="vegetables-dashboard.html">Vegetables</a>
         <a href="products-dashboard.html">Products</a>
         <a href="orders-dashboard.html">Orders</a>
-        <a href="about-dashboard.html">About</a>
+        <a href="about-dashboard.html" style="color:var(--primary)">About</a>
         <a href="contact-dashboard.html">Contact</a>
-       
+        <a href="#" class="btn btn-primary" style="padding: 6px 16px; margin-left:10px;">Chat & Quote</a>
       </nav>
-      <div class="cta">
-        <button class="btn btn-outline">Chat & Quote</button>
-      </div>
     </div>
   </header>
 
+  <!-- Hero Section -->
   <section class="hero">
     <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
-    <div class="container hero-content">
-      <h4 class="badge">Dashboard</h4>
-      <h1>About Krishi Suvidha</h1>
-      <p class="hero-sub">Mission, vision, impact metrics, and the team behind the farm.</p>
+    <div class="hero-content">
+      <span class="badge">About Us</span>
+      <h1>Cultivating Sustainability</h1>
+      <p class="hero-sub">Empowering farmers, delivering quality, and building a greener future since 2000.</p>
     </div>
   </section>
 
-  <section class="container">
-    <h3 class="section-title">Key Metrics</h3>
-    <div class="kpi-cards">
-      <div class="kpi">
-        <div class="label">Years of Operation</div>
-        <div class="value">25+</div>
-        <div class="sub">Sustainable and eco-friendly practices</div>
+  <!-- KPI Cards -->
+  <div class="metrics-section">
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Experience</div>
+        <div class="kpi-value">25+</div>
+        <div class="kpi-sub">Years of agricultural excellence</div>
       </div>
-      <div class="kpi">
-        <div class="label">Partner Farms</div>
-        <div class="value">48</div>
-        <div class="sub">Across multiple regions</div>
+      <div class="kpi-card">
+        <div class="kpi-label">Network</div>
+        <div class="kpi-value">48</div>
+        <div class="kpi-sub">Partner farms across regions</div>
       </div>
-      <div class="kpi">
-        <div class="label">Monthly Orders</div>
-        <div class="value">6,500</div>
-        <div class="sub">Average fulfilled orders</div>
+      <div class="kpi-card">
+        <div class="kpi-label">Volume</div>
+        <div class="kpi-value">6.5k</div>
+        <div class="kpi-sub">Monthly fulfilled orders</div>
       </div>
-      <div class="kpi">
-        <div class="label">Customer Satisfaction</div>
-        <div class="value">97%</div>
-        <div class="sub">Last 3 months</div>
+      <div class="kpi-card">
+        <div class="kpi-label">Trust</div>
+        <div class="kpi-value">97%</div>
+        <div class="kpi-sub">Customer satisfaction rate</div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section class="container" style="padding-top:12px;">
-    <div class="about-grid">
-      <div class="panel">
-        <h3>Mission & Vision</h3>
-        <p>We deliver organic, high-quality agricultural products using sustainable methods, empowering partner farmers and delighting customers globally.</p>
-        <div class="timeline">
-          <div class="item"><strong>2000</strong> – Family farm established</div>
-          <div class="item"><strong>2008</strong> – Expanded to multi-region sourcing</div>
-          <div class="item"><strong>2016</strong> – Introduced eco processing and logistics</div>
-          <div class="item"><strong>2023</strong> – 6K+ monthly orders milestone</div>
+  <!-- Main Content Grid -->
+  <main class="about-grid">
+    <article class="content-panel">
+      <h2 style="font-family:var(--font-serif); font-size:2rem; margin-bottom:16px;">Our Mission</h2>
+      <p style="color:#475569; font-size:1.05rem; margin-bottom:24px;">
+        To revolutionize the agricultural supply chain by connecting local farmers directly with global markets,
+        ensuring fair wages, sustainable practices, and the highest quality organic produce for our customers.
+      </p>
+
+      <h3 style="margin-top:40px;">Our Journey</h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">2000</div>
+          <div class="timeline-text">Founded as a small family farm initiative in Punjab.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2008</div>
+          <div class="timeline-text">Expanded sourcing to 5 neighboring states, forming the first farmer collective.
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2016</div>
+          <div class="timeline-text">Launched digital platform and eco-friendly logistics network.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2023</div>
+          <div class="timeline-text">Crossed 6,000 monthly orders and international exports.</div>
         </div>
       </div>
-      <div class="panel">
-        <h3>Certifications</h3>
-        <ul style="margin:0;padding-left:18px;">
-          <li>Organic Produce Certification</li>
-          <li>ISO 22000 Food Safety</li>
-          <li>Fair Trade Partnerships</li>
-          <li>Cold Chain Compliance</li>
-        </ul>
+    </article>
+
+    <aside class="content-panel" style="background:var(--light); box-shadow:none; border:1px solid var(--border);">
+      <h3 style="margin-bottom:20px;">Why Choose Us?</h3>
+      <ul class="cert-list">
+        <li>100% Organic Certified</li>
+        <li>Fair Trade Practices</li>
+        <li>ISO 22000 Food Safety</li>
+        <li>Carbon Neutral Logistics</li>
+        <li>Direct-to-Farmer Support</li>
+      </ul>
+
+      <div
+        style="background:var(--surface); padding:24px; border-radius:12px; margin-top:40px; text-align:center; border:1px solid var(--border);">
+        <h4 style="margin-bottom:12px; color:var(--primary);">Join Our Network</h4>
+        <p style="font-size:0.9rem; color:#64748b; margin-bottom:20px;">Are you a farmer or bulk buyer looking for
+          premium partnerships?</p>
+        <a href="contact-dashboard.html" class="btn btn-outline" style="width:100%;">Contact Sales</a>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Team Section -->
+  <section class="team-section">
+    <h2 class="section-title">Meet Key Members</h2>
+    <div class="team-grid">
+      <!-- Card 1 -->
+      <div class="team-card">
+        <img src="img/team-1.png" alt="Ayush Raj" class="team-img">
+        <div class="team-info">
+          <h3 class="team-name">Ayush Raj</h3>
+          <div class="team-role">Founder & CEO</div>
+          <button class="btn btn-primary" style="padding:6px 16px; font-size:0.8rem; margin-bottom:16px;">View
+            Profile</button>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="team-card">
+        <img src="img/team-2.png" alt="Abhishek" class="team-img">
+        <div class="team-info">
+          <h3 class="team-name">Abhishek</h3>
+          <div class="team-role">Head of Operations</div>
+          <button class="btn btn-primary" style="padding:6px 16px; font-size:0.8rem; margin-bottom:16px;">View
+            Profile</button>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="team-card">
+        <img src="img/team-3.png" alt="Shyam" class="team-img">
+        <div class="team-info">
+          <h3 class="team-name">Shyam</h3>
+          <div class="team-role">Lead Agronomist</div>
+          <button class="btn btn-primary" style="padding:6px 16px; font-size:0.8rem; margin-bottom:16px;">View
+            Profile</button>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="team-card">
+        <img src="img/team6.png" alt="Ram" class="team-img">
+        <div class="team-info">
+          <h3 class="team-name">Ram</h3>
+          <div class="team-role">Supply Chain Mgr</div>
+          <button class="btn btn-primary" style="padding:6px 16px; font-size:0.8rem; margin-bottom:16px;">View
+            Profile</button>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="team-card">
+        <img src="img/team-5.png" alt="Rani" class="team-img">
+        <div class="team-info">
+          <h3 class="team-name">Rani</h3>
+          <div class="team-role">Quality Control</div>
+          <button class="btn btn-primary" style="padding:6px 16px; font-size:0.8rem; margin-bottom:16px;">View
+            Profile</button>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="team-card">
+        <img src="img/team-4.png" alt="Shivani" class="team-img">
+        <div class="team-info">
+          <h3 class="team-name">Shivani</h3>
+          <div class="team-role">Customer Success</div>
+          <button class="btn btn-primary" style="padding:6px 16px; font-size:0.8rem; margin-bottom:16px;">View
+            Profile</button>
+        </div>
       </div>
     </div>
   </section>
 
- <section class="products container">
-    <h2>Recent Messages</h2>
-    <div class="product-grid">
-      <div class="product-card">
-        <img src="img/team-1.png" alt="User">
-        <h4>Ayush Raj</h4>
-        
-        <button class="btn">View</button>
-      </div>
-      <div class="product-card">
-        <img src="img/team-2.png" alt="User">
-        <h4> Abhishek </h4>
-        
-        <button class="btn">View</button>
-      </div>
-      <div class="product-card">
-        <img src="img/team-3.png" alt="User">
-        <h4>Shyam</h4>
-        
-        <button class="btn">View</button>
-      </div>
-      <div class="product-card">
-        <img src="img/team6.png" alt="User">
-        <h4> Ram</h4>
-        
-        <button class="btn">View</button>
-      </div>
-      <div class="product-card">
-        <img src="img/team-5.png" alt="User">
-        <h4> Rani</h4>
-        
-        <button class="btn">View</button>
-      </div>
-      <div class="product-card">
-        <img src="img/team-4.png" alt="User">
-        <h4> Shivani </h4>
-        
-        <button class="btn">View</button>
-      </div>
-    </div>
-  </section>
-
+  <!-- Footer -->
   <footer class="footer">
-    <div class="newsletter">
-      <h3>Have Questions?</h3>
-      <p>Reach out for partnerships, bulk orders, or media enquiries.</p>
-      <a class="btn btn-primary" href="contact-dashboard.html">Contact Us</a>
+    <div class="newsletter-box">
+      <h2 style="color:white; margin-bottom:12px;">Start Your Journey With Us</h2>
+      <p style="opacity:0.9; margin-bottom:24px;">Whether you're buying or selling, we have the right solutions for you.
+      </p>
+      <div style="display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
+        <a href="contact-dashboard.html" class="btn" style="background:white; color:var(--primary);">Get in Touch</a>
+        <a href="products-dashboard.html" class="btn" style="border:2px solid white; color:white;">Browse Products</a>
+      </div>
+    </div>
+
+    <div style="opacity:0.6; font-size:0.9rem;">
+      &copy; 2024 Krishi Suvidha. All rights reserved. <br>
+      Made with ❤️ for Indian Farmers.
     </div>
   </footer>
- <link href="chat.css" rel="stylesheet" /> 
-    <script type="module">
-       import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js'; 
-    
-      createChat({
-        webhookUrl: 'https://kshitij-garg123.app.n8n.cloud/webhook/8f522b8e-9282-42a5-bede-be9063ebe427/chat'
-      });
-    </script>
-  <script src="script.js"></script>
+
+  <!-- Scripts -->
   <script type="text/javascript">
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
         pageLanguage: 'en',
-       includedLanguages: 'aa,ab,ae,af,ak,am,an,ar,as,av,ay,az,ba,be,bg,bh,bi,bm,bn,bo,br,bs,ca,ce,cs,cu,cv,cy,da,de,dv,dz,ee,el,en,eo,es,et,eu,fa,ff,fi,fj,fo,fr,fy,ga,gd,gl,gn,gu,gv,ha,he,hi,ho,hr,ht,hu,hy,hz,ia,id,ie,ig,ii,ik,io,is,it,iu,ja,jv,ka,kg,ki,kj,kk,kl,km,kn,ko,kr,ks,ku,kv,kw,ky,la,lb,lg,li,ln,lo,lt,lu,lv,mg,mh,mi,mk,ml,mn,mo,mr,ms,mt,my,na,nb,nd,ne,ng,nl,nn,no,nr,oc,oj,om,or,os,pa,pi,pl,ps,pt,qu,rm,rn,ro,ru,rw,sa,sc,sd,se,sg,sh,si,sk,sl,sm,sn,so,sq,sr,ss,st,sv,sw,ta,te,tg,th,ti,tk,tl,tn,to,tr,ts,tt,tw,ty,ug,uk,ur,uz,ve,vi,vo,wa,wo,xh,yi,yo,za,zh,zu',
         layout: google.translate.TranslateElement.InlineLayout.SIMPLE
       }, 'google_translate_element');
     }
   </script>
-  <script type="module" src="script.js"></script>
   <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    createChat({
+      webhookUrl: 'https://kshitij-garg123.app.n8n.cloud/webhook/8f522b8e-9282-42a5-bede-be9063ebe427/chat'
+    });
+  </script>
+  <script src="script.js"></script>
 </body>
+
 </html>
-
-
